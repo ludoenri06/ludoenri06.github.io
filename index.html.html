@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>L'AIUTO CLASSICO — Versioni Latino & Greco</title>
+  <meta name="description" content="L'Aiuto Classico: raccolta di versioni di latino e greco organizzata per autore." />
+  <style>
+    :root{--bg:#fbfdff;--card:#fff;--accent:#0b4f78;--muted:#556;--gap:12px}
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0;background:var(--bg);color:#111}
+    header{background:linear-gradient(90deg,var(--accent),#0b89c6);color:white;padding:24px 18px}
+    .wrap{max-width:1100px;margin:18px auto;padding:0 16px}
+    h1{margin:0;font-size:1.6rem}
+    nav{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+    .btn{background:white;color:var(--accent);padding:8px 12px;border-radius:8px;text-decoration:none;border:0;cursor:pointer}
+    .hero{display:flex;gap:18px;align-items:center;justify-content:space-between}
+    .card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(12,18,30,0.06)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap);margin-top:18px}
+    .meta{font-size:.95rem;color:var(--muted);margin-bottom:8px}
+    .text{white-space:pre-wrap;font-family:serif;font-size:1rem;line-height:1.5;margin-bottom:10px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .small{font-size:.9rem;color:var(--muted)}
+    .searchbar{padding:8px;border-radius:8px;border:1px solid #e3eef7;min-width:180px}
+    footer{color:var(--muted);text-align:center;padding:22px 10px;margin-top:22px}
+    .editor{margin-top:18px;background:#fff7ea;padding:12px;border-radius:10px;border:1px dashed #f0c36a}
+    input[type="text"],select,textarea{padding:8px;border-radius:8px;border:1px solid #ddd}
+    textarea{min-height:100px}
+    .hidden{display:none}
+    .ads-placeholder{display:block;margin:14px 0;padding:12px;background:#f1f5f9;border-radius:8px;text-align:center;color:#333}
+    .nav-tiles{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .tile{flex:1 1 220px;background:linear-gradient(180deg,#fff,#f7fbff);padding:16px;border-radius:10px;cursor:pointer;border:1px solid #e6f0f8}
+    .crumbs{font-size:.9rem;color:var(--muted);margin-bottom:8px}
+    .back{background:#eef;padding:6px 10px;border-radius:8px;border:0;cursor:pointer}
+    .generated-json{white-space:pre-wrap;background:#f4f6f8;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #e1e6ea;max-height:220px;overflow:auto}
+    .row{display:flex;gap:8px;align-items:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>L'AIUTO CLASSICO</h1>
+        <div class="small">Versioni di latino e greco organizzate per autore — creato da te.</div>
+      </div>
+      <div class="controls">
+        <button id="openEditor" class="btn">Apri Editor (admin)</button>
+        <a href="#info" class="btn">Come funziona</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="app">
+    <!-- ADS (top) -->
+    <div class="ads-placeholder" id="ads-top">
+      <!-- Inserisci qui lo script Google AdSense -->
+      <!-- Esempio:
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+      Banner AdSense (sostituisci con il tuo codice)
+    </div>
+
+    <!-- LANDING: scelta lingua -->
+    <section id="landing">
+      <div class="card">
+        <div class="crumbs">Home</div>
+        <h2>Scegli la lingua</h2>
+        <div class="nav-tiles">
+          <div class="tile" data-lang="latino" role="button" tabindex="0"><strong>Latino</strong><div class="small">Versioni in latino</div></div>
+          <div class="tile" data-lang="greco" role="button" tabindex="0"><strong>Greco</strong><div class="small">Versioni in greco</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTORI -->
+    <section id="authors" class="hidden">
+      <div class="card">
+        <div class="crumbs"><button class="back" id="backToLang">&larr; Lingue</button></div>
+        <h2 id="authorsTitle">Autori</h2>
+
+        <div class="small">Scegli un autore</div>
+        <div id="authorsList" class="grid" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- VERSIONS LIST -->
+    <section id="versions" class="hidden">
+      <div class="card">
+        <div class="crumbs"><button class="back" id="backToAuthors">&larr; Autori</button></div>
+        <h2 id="versionsTitle">Versioni</h2>
+        <div id="versionsList" class="grid" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- VIEW VERSION -->
+    <section id="view" class="hidden">
+      <div class="card">
+        <div class="crumbs"><button class="back" id="backToVersions">&larr; Versioni</button></div>
+        <h2 id="viewTitle">Versione</h2>
+        <div id="viewMeta" class="meta"></div>
+        <div id="viewText" class="text"></div>
+        <details id="viewTrans"><summary class="small">Traduzione / note</summary><div class="text" id="viewTranslation"></div></details>
+      </div>
+    </section>
+
+    <!-- EDITOR -->
+    <section id="editor" class="editor hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Editor amministratore (genera JSON da incollare nel file)</strong>
+        <button id="closeEditor" class="back">Chiudi editor</button>
+      </div>
+
+      <div style="margin-top:10px" class="small">Password (default: admin123)</div>
+      <input id="adminPw" type="text" placeholder="password admin" style="margin-top:6px;width:220px"/>
+
+      <hr style="margin:12px 0"/>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px">
+          <label class="small">Lingua</label><br/>
+          <select id="edLang"><option value="latino">Latino</option><option value="greco">Greco</option></select>
+        </div>
+        <div style="flex:2;min-width:220px">
+          <label class="small">Autore (es. Cicerone)</label><br/>
+          <input id="edAuthor" type="text" placeholder="Nome autore (crea se non esiste)"/>
+        </div>
+        <div style="flex:1;min-width:120px">
+          <label class="small">Titolo versione</label><br/>
+          <input id="edTitle" type="text" placeholder="Titolo versione"/>
+        </div>
+      </div>
+
+      <div style="margin-top:8px">
+        <label class="small">Testo originale</label><br/>
+        <textarea id="edText"></textarea>
+      </div>
+
+      <div style="margin-top:8px">
+        <label class="small">Traduzione / Note (opzionale)</label><br/>
+        <textarea id="edTrans"></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="edAdd" class="btn">Aggiungi versione (locale)</button>
+        <button id="edClear" class="btn" style="background:#8aa6b8">Pulisci</button>
+        <button id="edExport" class="btn" style="background:#2b9d4a">Genera JSON</button>
+      </div>
+
+      <div class="small" style="margin-top:8px">JSON generato (copia tutto e incollalo nel file):</div>
+      <div id="edOut" class="generated-json">{}<\/div>
+      <div class="small" style="margin-top:8px">Suggerimento: dopo aver generato, sostituisci la variabile <code>siteData</code> in questo file con il JSON generato e salva su GitHub.</div>
+    </section>
+
+    <!-- ADS (mid) -->
+    <div class="ads-placeholder" id="ads-mid">AdSense middle placeholder</div>
+
+    <footer id="info">
+      <div class="small">Per inserire Google AdSense: aggiungi lo script nel placeholder &lt;!-- Inserisci qui lo script Google AdSense --&gt; e verifica il sito su AdSense. Per pubblicare: usa GitHub Pages (spiego sotto).</div>
+    </footer>
+  </main>
+
+  <script>
+    // === Dati: struttura gerarchica lingua->autore->list of versions
+    // Modifica qui per aggiungere autore/versioni manualmente, oppure usa l'editor per generare JSON e incollarlo.
+    const siteData = {
+      "latino": {
+        "Cicerone": [
+          { id:"l_cic_001", title:"Esempio Cicerone 1", text:"Gallia est omnis divisa in partes tres.", translation:"La Gallia è divisa in tre parti." }
+        ],
+        "Cesare": [
+          { id:"l_ces_001", title:"Esempio Cesare", text:"Veni, vidi, vici.", translation:"Venni, vidi, vinsi." }
+        ]
+      },
+      "greco": {
+        "Omero": [
+          { id:"g_om_001", title:"Esempio Omero", text:"ἄνδρα μοι ἔννεπε, Μοῦσα, πολύτροπον...", translation:"Cantami, o Musa, dell'uomo dalle molte astuzie..."}
+        ]
+      }
+    };
+
+    // === UI logic
+    (function(){
+      const landing = document.getElementById('landing');
+      const authors = document.getElementById('authors');
+      const versions = document.getElementById('versions');
+      const view = document.getElementById('view');
+      const editor = document.getElementById('editor');
+      const authorsList = document.getElementById('authorsList');
+      const versionsList = document.getElementById('versionsList');
+      const viewTitle = document.getElementById('viewTitle');
+      const viewText = document.getElementById('viewText');
+      const viewMeta = document.getElementById('viewMeta');
+      const viewTranslation = document.getElementById('viewTranslation');
+      const viewTrans = document.getElementById('viewTrans');
+      const authorsTitle = document.getElementById('authorsTitle');
+      const versionsTitle = document.getElementById('versionsTitle');
+
+      let currentLang = null;
+      let currentAuthor = null;
+
+      // language tiles
+      document.querySelectorAll('[data-lang]').forEach(el=>{
+        el.addEventListener('click', ()=> openAuthors(el.dataset.lang));
+        el.addEventListener('keypress', e=>{ if(e.key==='Enter') openAuthors(el.dataset.lang); });
+      });
+
+      function openAuthors(lang){
+        currentLang = lang;
+        landing.classList.add('hidden');
+        authors.classList.remove('hidden');
+        versions.classList.add('hidden');
+        view.classList.add('hidden');
+        authorsTitle.textContent = (lang==='latino'?"Autori — Latino":"Autori — Greco");
+        renderAuthors(lang);
+      }
+
+      function renderAuthors(lang){
+        authorsList.innerHTML = '';
+        const list = siteData[lang] ? Object.keys(siteData[lang]) : [];
+        if(!list.length){ authorsList.innerHTML = '<div class="card">Nessun autore presente. Usa l\'editor per aggiungere.</div>'; return; }
+        list.forEach(author=>{
+          const el = document.createElement('div');
+          el.className = 'tile';
+          el.tabIndex = 0;
+          el.innerHTML = `<strong>${author}</strong><div class="small">${(siteData[lang][author]||[]).length} versioni</div>`;
+          el.addEventListener('click', ()=> openVersions(author));
+          el.addEventListener('keypress', e=>{ if(e.key==='Enter') openVersions(author); });
+          authorsList.appendChild(el);
+        });
+      }
+
+      document.getElementById('backToLang').addEventListener('click', ()=>{
+        landing.classList.remove('hidden'); authors.classList.add('hidden'); versions.classList.add('hidden'); view.classList.add('hidden');
+      });
+
+      function openVersions(author){
+        currentAuthor = author;
+        authors.classList.add('hidden');
+        versions.classList.remove('hidden');
+        view.classList.add('hidden');
+        versionsTitle.textContent = `${author} — versioni (${currentLang==='latino'?'Latino':'Greco'})`;
+        renderVersions(currentLang, author);
+      }
+
+      function renderVersions(lang, author){
+        versionsList.innerHTML = '';
+        const list = (siteData[lang] && siteData[lang][author]) ? siteData[lang][author] : [];
+        if(!list.length){ versionsList.innerHTML = '<div class="card">Nessuna versione presente per questo autore.</div>'; return; }
+        list.forEach(v=>{
+          const el = document.createElement('div');
+          el.className = 'tile';
+          el.tabIndex = 0;
+          el.innerHTML = `<strong>${v.title}</strong><div class="small">${(v.text||'').slice(0,80)}...</div>`;
+          el.addEventListener('click', ()=> openVersion(v));
+          el.addEventListener('keypress', e=>{ if(e.key==='Enter') openVersion(v); });
+          versionsList.appendChild(el);
+        });
+      }
+
+      document.getElementById('backToAuthors').addEventListener('click', ()=>{
+        authors.classList.remove('hidden'); versions.classList.add('hidden'); view.classList.add('hidden');
+      });
+
+      function openVersion(v){
+        versions.classList.add('hidden');
+        view.classList.remove('hidden');
+        viewTitle.textContent = v.title;
+        viewMeta.textContent = `${currentAuthor} — ${currentLang==='latino'?'Latino':'Greco'}`;
+        viewText.textContent = v.text || '';
+        if(v.translation){ viewTrans.style.display = 'block'; viewTranslation.textContent = v.translation; } else { viewTrans.style.display = 'none'; }
+      }
+
+      document.getElementById('backToVersions').addEventListener('click', ()=>{
+        versions.classList.remove('hidden'); view.classList.add('hidden');
+      });
+
+      // === Editor logic (genera JSON per sostituire siteData)
+      const openEditorBtn = document.getElementById('openEditor');
+      const closeEditorBtn = document.getElementById('closeEditor');
+      const adminPw = document.getElementById('adminPw');
+      const edLang = document.getElementById('edLang');
+      const edAuthor = document.getElementById('edAuthor');
+      const edTitle = document.getElementById('edTitle');
+      const edText = document.getElementById('edText');
+      const edTrans = document.getElementById('edTrans');
+      const edAdd = document.getElementById('edAdd');
+      const edClear = document.getElementById('edClear');
+      const edExport = document.getElementById('edExport');
+      const edOut = document.getElementById('edOut');
+
+      openEditorBtn.addEventListener('click', ()=>{
+        editor.classList.remove('hidden'); editor.scrollIntoView({behavior:'smooth'});
+      });
+      closeEditorBtn.addEventListener('click', ()=>{ editor.classList.add('hidden'); });
+
+      edAdd.addEventListener('click', ()=>{
+        if(adminPw.value !== 'admin123'){ alert('Password admin errata'); return; }
+        const lang = edLang.value;
+        const author = (edAuthor.value || 'Autore senza nome').trim();
+        const title = edTitle.value || 'Senza titolo';
+        const text = edText.value || '';
+        const translation = edTrans.value || '';
+        if(!siteData[lang]) siteData[lang] = {};
+        if(!siteData[lang][author]) siteData[lang][author] = [];
+        const newId = (lang[0]+'_'+(author.replace(/\s+/g,'').toLowerCase()).slice(0,6)+'_'+Date.now().toString(36).slice(-5));
+        siteData[lang][author].unshift({ id:newId, title:title, text:text, translation:translation });
+        alert('Versione aggiunta localmente. Per rendere permanente: usa "Genera JSON" e incolla il risultato nel file su GitHub.');
+        edClear.click();
+        // Aggiorna view se sei nella stessa lingua/autore
+        if(currentLang === lang && currentAuthor === author) renderVersions(lang, author);
+      });
+
+      edClear.addEventListener('click', ()=>{ edAuthor.value=''; edTitle.value=''; edText.value=''; edTrans.value=''; });
+
+      edExport.addEventListener('click', ()=>{
+        try{
+          edOut.textContent = JSON.stringify(siteData, null, 2);
+        }catch(e){
+          edOut.textContent = '{}';
+        }
+      });
+
+      // inizio: mostra landing
+      landing.classList.remove('hidden');
+    })();
+  </script>
+
+  <!-- Footer note: istruzioni GitHub pubblicazione incluse nel file README separato -->
+</body>
+</html>
