@@ -167,20 +167,43 @@
     // === Dati: struttura gerarchica lingua->autore->list of versions
     // Modifica qui per aggiungere autore/versioni manualmente, oppure usa l'editor per generare JSON e incollarlo.
     const siteData = {
-      "latino": {
-        "Cicerone": [
-          { id:"l_cic_001", title:"Esempio Cicerone 1", text:"Gallia est omnis divisa in partes tres.", translation:"La Gallia è divisa in tre parti." }
-        ],
-        "Cesare": [
-          { id:"l_ces_001", title:"Esempio Cesare", text:"Veni, vidi, vici.", translation:"Venni, vidi, vinsi." }
-        ]
-      },
-      "greco": {
-        "Omero": [
-          { id:"g_om_001", title:"Esempio Omero", text:"ἄνδρα μοι ἔννεπε, Μοῦσα, πολύτροπον...", translation:"Cantami, o Musa, dell'uomo dalle molte astuzie..."}
-        ]
+  "latino": {
+    "Cicerone": [
+      {
+        "id": "l_cic_001",
+        "title": "Esempio Cicerone 1",
+        "text": "Gallia est omnis divisa in partes tres.",
+        "translation": "La Gallia è divisa in tre parti."
       }
-    };
+    ],
+    "Cesare": [
+      {
+        "id": "l_ces_001",
+        "title": "Esempio Cesare",
+        "text": "Veni, vidi, vici.",
+        "translation": "Venni, vidi, vinsi."
+      }
+    ],
+    "Livio": [
+      {
+        "id": "l_livio_xb74f",
+        "title": "Senza titolo",
+        "text": "Cum hostes adessent,pro se quisque in urbem ex agris demigrant; urbem ipasam saepiunt preaseidiis",
+        "translation": "Mentre i neimici arrivavano, tutti corrono dalla campagna verso la città: fortificavano con presidii la città stessa. Alcune cose sembravano sicure con le mura, altre per il Tevere frapposto: il ponte Sublicio per poco non orrfiva un passaggio ai nemici se non ci fosse stato un solo uomo, Orazio Coclite; la fortuna della città romana in quel giorno ebbe quel sostegno. Ed ogni posto per caso alla guardia del ponte avendo visto che con un attacco repentino era stato preso il Gianicolo e che i nemici andavano via da lì veloci e che la folla dei suoi intrepidante lasciava le proprie armi e rompeva le fila, riprendendo i singoli, resistendo, appellandosi alla fede degli uomini e degli Dei , dichiarava che essi fuggivavano inutilmente da un presidio deserto: se avessero lasciato il transito per mezzo del ponte alle spalle, cisarebbero stati pù nemici al Campidoglio e al Palatino che al Gianicolo. Comincia ad ammonirli, esortarli di tagliare distruggere il ponte con ferro e con il fuoco, con qualunque cosa possano, diceva che avrebbe sostenuto l'impeto dei nemici per quanto era possibile per un solo uomo."
+      }
+    ]
+  },
+  "greco": {
+    "Omero": [
+      {
+        "id": "g_om_001",
+        "title": "Esempio Omero",
+        "text": "ἄνδρα μοι ἔννεπε, Μοῦσα, πολύτροπον...",
+        "translation": "Cantami, o Musa, dell'uomo dalle molte astuzie..."
+      }
+    ]
+  }
+}
 
     // === UI logic
     (function(){
